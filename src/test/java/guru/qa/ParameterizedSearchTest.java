@@ -1,3 +1,4 @@
+/*
 package guru.qa;
 
 import com.codeborne.selenide.Selenide;
@@ -77,3 +78,4 @@ public class ParameterizedSearchTest {
         Selenide.$$("li.serp-item").find(text("JUnit5")).shouldBe(visible);
     }
 }
+*/

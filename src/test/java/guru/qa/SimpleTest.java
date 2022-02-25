@@ -14,15 +14,16 @@ public class SimpleTest {
     void simpleGreenTest() {
         assertTrue (3>2);
     }
+
     @Test
     @DisplayName("Ожидаем красный тест")
     void simpleRedTest() {
         assertTrue (3<2);
     }
+
     @Test
-    @Disabled("bug: JIRA-123") //дизейблит тест пока ег оанпример фиксят и он не будет запускатсья и попадать в отчет
+   // @Disabled("bug: JIRA-123") //дизейблит тест пока его, на пример, фиксят и он не будет запускатсья и попадать в отчет
     void simpleBrokenYellowTest() {
         throw new IllegalStateException("Broken ;(");
     }
-
 }
