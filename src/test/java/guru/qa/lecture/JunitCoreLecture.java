@@ -1,5 +1,7 @@
-package guru.qa;
+//это лекционная версия файла JunitCore из основго каталога guru.qa
+package guru.qa.lecture;
 
+import guru.qa.SimpleTest;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.InvocationTargetException;
