@@ -1,4 +1,6 @@
 /*
+//третья версия;  оптимизация: на примере параметризованнх тестов с несколькими входящими данными
+
 package guru.qa;
 
 import com.codeborne.selenide.Selenide;
@@ -18,7 +20,7 @@ import java.util.stream.Stream;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 
-public class ParameterizedSearchTest {
+public class FinalParameterizedSearchTest {
 
     @BeforeEach
     void precondition() {
