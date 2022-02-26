@@ -1,4 +1,3 @@
-/*
 //третья версия;  оптимизация: на примере параметризованнх тестов с несколькими входящими данными
 
 package guru.qa;
@@ -6,13 +5,10 @@ package guru.qa;
 import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -25,6 +21,7 @@ public class FinalParameterizedSearchTest {
     @BeforeEach
     void precondition() {
         Selenide.open("https://ya.ru/");
+
     }
 
     @AfterEach
@@ -32,52 +29,41 @@ public class FinalParameterizedSearchTest {
         Selenide.closeWebDriver();
     }
 
-    @ValueSource(strings = {"Selenide", "JUnit 5"})
+
+    //два набора данных, 1 строчка - 1 запуск -> внутри строчки запятая делит аргументы. Если нужна запятая внутри аргумента, то используем delimetr
+    @CsvSource(value = {
+            "Selenide| concise UI",
+            "JUnit 5| IntelliJ IDEA"
+    },
+            delimiter = '|')
+
     @ParameterizedTest(name = "Проверка отображения поисковых результатов в Яндексе для запроса \"{0}\"")
-    void commonSearchTest(String testData) {
+    //0 - это порядковый номер аргумента из тест даты который будет передан в заголовок
+    void complexSearchTest(String testData, String expectedData) {
         Selenide.$("#text").setValue(testData);
         Selenide.$("button[type=submit]").click();
-
         Selenide.$$("li.serp-item").find(text(testData)).shouldBe(visible);
+        Selenide.$$("li.serp-item").find(text(expectedData)).shouldBe(visible);
+
     }
 
-    @CsvSource
-    @ParameterizedTest
-    void complexSearchTest(){}
 
-    static Stream<Arguments> mixedArgTestDataProvider(){
+    //-----
+
+    static Stream<Arguments> mixedArgTestDataProvider() {
         return Stream.of(
-                Arguments.of("Selenide", List.of(1,2,4), true),
-                Arguments.of("JUnit 5",List<1,2,6>,false)
+                Arguments.of("Selenide", List.of(1, 2, 4), true),
+                Arguments.of("JUnit 5", List.of(1, 2, 6), false)
         );
     }
 
 
-
-    @MethodSource (value ="mixedArgTestDataProvider")
+    @MethodSource(value = "mixedArgTestDataProvider")
+    //можно выше не писать "value =", а сразу подавать string, но так раюотает только с value в Java
+    //MethodSource - наиболее универсальный способ параметризации теста (им можно заменить и CsvSource и  ValueSource, но хуже читается, визуально сложнее для восприятия
     @ParameterizedTest
-    void mixedArgSearchTest(String firstArg, List<Integer> seconfArg, boolean thirdArg){
-        System.out.println("String: "+firstArg+", list: " +seconfArg+", bool? - "+thirdArg);
+    void mixedArgSearchTest(String firstArg, List<Integer> secondArg, boolean thirdArg) {
+        System.out.println("String: " + firstArg + ", list: " + secondArg + ", bool? - " + thirdArg);
 
-    }
-
-    //ниже параметризированный тест разделенный на отдельные тесты
-    @Test
-    @DisplayName("Проверка отображения поисковых результатов в Яндексе для запроса \"Selenide\"")
-    void selenideSearchTest() {
-        Selenide.$("#text").setValue("Selenide");
-        Selenide.$("button[type=submit]").click();
-
-        Selenide.$$("li.serp-item").find(text("Selenide")).shouldBe(visible);
-    }
-
-    @Test
-    @DisplayName("Проверка отображения поисковых результатов в Яндексе для запроса \"Selenide\"")
-    void junitSearchTest() {
-        Selenide.$("#text").setValue("JUnit5");
-        Selenide.$("button[type=submit]").click();
-
-        Selenide.$$("li.serp-item").find(text("JUnit5")).shouldBe(visible);
     }
 }
-*/

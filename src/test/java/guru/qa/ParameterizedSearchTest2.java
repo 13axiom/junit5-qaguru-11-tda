@@ -25,7 +25,7 @@ public class ParameterizedSearchTest2 {
     }
 
     @ValueSource(strings = {"Selenide", "JUnit 5"})
-    @ParameterizedTest(name = "Проверка отображения поисковых результатов в Яндексе для запроса \"{0}\"") //0 это передача в заголовок параметра тестовой даты
+    @ParameterizedTest(name = "Проверка отображения поисковых результатов в Яндексе для запроса \"{0}\"") //порядковый номер аргумента из тест даты который будет передан в заголовок
     void commonSearchTest2(String testData) {
         // ввести в поле поиска {test_data}
         Selenide.$("#text").setValue(testData);
